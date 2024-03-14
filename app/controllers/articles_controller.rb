@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  http_basic_authenticate_with name: "admin", password: "admin", except: [:index, :show]
+
   def index
     @articles = Article.all
   end
@@ -15,7 +17,7 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      redirect_to @article
+      redirect_to article_path(@article), notice: "Article was created successfully"
     else
       render :new, status: :unprocessable_entity
     end
